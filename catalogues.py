@@ -23,11 +23,11 @@ class Catalogue:
             self.catalogue = self.read_catalogue_file(name)
             if name == 'rrls':
                 self.catalogue = self.classify_rrls(self.catalogue)
-            '''else:
-                #self.rrls = 
-                #self.molecules =
+            else:
+                self.rrls = self.get_rrls(self.catalogue)
+                self.molecules = self.get_molecules(self.catalogue)
                 #self.uf =
-'''
+
         return
     
 
@@ -166,3 +166,42 @@ class Catalogue:
                                 CarbonIII, OxygenIII], axis=0).reset_index(drop=True)
 
         return final_data
+    
+
+    def get_rrls(self, data):
+        """
+        Function to get the rrls from an astronomical source catalogue
+
+        Parameters
+        ----------
+        data : pandas dataframe
+            Dataframe with the catalogue information
+
+        Returns
+        -------
+        self.rrls : pandas dataframe
+            Dataframe with the catalogue information sorted by element and series
+        """
+        final_data = data[data['Origin'] == 'rrline']
+        final_data = self.classify_rrls(final_data)
+
+        return final_data.reset_index(drop=True)
+    
+
+    def get_molecules(self, data):
+        """
+        Function to get the molecules from an astronomical source catalogue
+
+        Parameters
+        ----------
+        data : pandas dataframe
+            Dataframe with the catalogue information
+
+        Returns
+        -------
+        self.molecules : pandas dataframe
+            Dataframe with the catalogue information sorted by element and series
+        """
+        final_data = data[~data['Origin'].isin(['rrline', 'unknow'])]
+        
+        return final_data.reset_index(drop=True)
