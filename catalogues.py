@@ -21,13 +21,13 @@ class Catalogue:
             self.catalogue = None
         else:
             self.catalogue = self.read_catalogue_file(name)
-            if name == 'rrls':
+            '''if name == 'rrls':
                 #self.catalogue = self.catalogue
             else:
                 #self.rrls = 
                 #self.molecules =
                 #self.uf =
-
+'''
         return
     
 
