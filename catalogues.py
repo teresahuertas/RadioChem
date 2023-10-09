@@ -22,7 +22,7 @@ class Catalogue:
         else:
             self.catalogue = self.read_catalogue_file(name)
             if name == 'rrls':
-                #self.catalogue = self.catalogue
+                self.catalogue = self.classify_rrls(self.catalogue)
             '''else:
                 #self.rrls = 
                 #self.molecules =
@@ -113,4 +113,56 @@ class Catalogue:
                                 gt, gu, gf, gc, gy, gw],
                                 axis=0).reset_index(drop=True)
         
+        return final_data
+    
+
+    def classify_rrls(self, data):
+        """
+        Function to classify the rrls by element and series
+
+        Parameters
+        ----------
+        data : pandas dataframe
+            Dataframe with the catalogue information
+
+        Returns
+        -------
+        final_data : pandas dataframe
+            Dataframe with the catalogue information sorted by element and series
+        """
+        # Get hydrogen lines
+        # They start by H and not by He or 3He
+        Hydrogen = data[data['Species'].str.startswith('H') 
+                        & ~data['Species'].str.startswith('He') 
+                        & ~data['Species'].str.startswith('3He')]
+        Deuterium = data[data['Species'].str.startswith('D')]
+        TriHelium = data[data['Species'].str.startswith('3He') 
+                         & ~data['Species'].str.startswith('3HeII')]
+        Helium = data[data['Species'].str.startswith('He')]
+        Carbon = data[data['Species'].str.startswith('C') 
+                      & ~data['Species'].str.startswith('CII') 
+                      & ~data['Species'].str.startswith('CIII')]
+        TriHeliumII = data[data['Species'].str.startswith('3HeII')]
+        HeliumII = data[data['Species'].str.startswith('HeII')]
+        CarbonII = data[data['Species'].str.startswith('CII') 
+                        & ~data['Species'].str.startswith('CIII')]
+        CarbonIII = data[data['Species'].str.startswith('CIII')]
+        OxygenIII = data[data['Species'].str.startswith('OIII')]
+
+        # Sort lines by greek letter
+        Hydrogen = self.sort_greek(Hydrogen)
+        Deuterium = self.sort_greek(Deuterium)
+        TriHelium = self.sort_greek(TriHelium)
+        Helium = self.sort_greek(Helium)
+        Carbon = self.sort_greek(Carbon)
+        TriHeliumII = self.sort_greek(TriHeliumII)
+        HeliumII = self.sort_greek(HeliumII)
+        CarbonII = self.sort_greek(CarbonII)
+        CarbonIII = self.sort_greek(CarbonIII)
+        OxygenIII = self.sort_greek(OxygenIII)
+
+        final_data = pd.concat([Hydrogen, Deuterium, TriHelium, Helium, 
+                                Carbon, TriHeliumII, HeliumII, CarbonII, 
+                                CarbonIII, OxygenIII], axis=0).reset_index(drop=True)
+
         return final_data
