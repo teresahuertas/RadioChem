@@ -21,9 +21,9 @@ class Catalogue:
             self.catalogue = None
         else:
             self.catalogue = self.read_catalogue_file(name)
-            '''if name == 'rrls':
+            if name == 'rrls':
                 #self.catalogue = self.catalogue
-            else:
+            '''else:
                 #self.rrls = 
                 #self.molecules =
                 #self.uf =
@@ -66,3 +66,51 @@ class Catalogue:
         except Exception as e:
             print('Error reading {e}')
             return None
+    
+
+    def sort_greek(self, data):
+        """
+        Function to sort lines by greek letter
+
+        Parameters
+        ----------
+        data : pandas dataframe
+            Dataframe with the catalogue information
+
+        Returns
+        -------
+        final_data : pandas dataframe
+            Dataframe with the catalogue information sorted by greek letter
+        """
+        ga = data[data['Species'].str.endswith('a')]
+        gb = data[data['Species'].str.endswith('b')]
+        gg = data[data['Species'].str.endswith('g')]
+        gd = data[data['Species'].str.endswith('d')]
+        ge = data[data['Species'].str.endswith('e')]
+        gz = data[data['Species'].str.endswith('z')]
+        gh = data[data['Species'].str.endswith('h')]
+        gq = data[data['Species'].str.endswith('q')]
+        gi = data[data['Species'].str.endswith('i')]
+        gk = data[data['Species'].str.endswith('k')]
+        gl = data[data['Species'].str.endswith('l')]
+        gm = data[data['Species'].str.endswith('m')]
+        gn = data[data['Species'].str.endswith('n')]
+        gx = data[data['Species'].str.endswith('x')]
+        go = data[data['Species'].str.endswith('o')]
+        gp = data[data['Species'].str.endswith('p')]
+        gr = data[data['Species'].str.endswith('r')]
+        gs = data[data['Species'].str.endswith('s')]
+        gt = data[data['Species'].str.endswith('t')]
+        gu = data[data['Species'].str.endswith('u')]
+        gf = data[data['Species'].str.endswith('f')]
+        gc = data[data['Species'].str.endswith('c')]
+        gy = data[data['Species'].str.endswith('y')]
+        gw = data[data['Species'].str.endswith('w')]
+
+        final_data = pd.concat([ga, gb, gg, gd, ge, gz,
+                                gh, gq, gi, gk, gl, gm,
+                                gn, gx, go, gp, gr, gs,
+                                gt, gu, gf, gc, gy, gw],
+                                axis=0).reset_index(drop=True)
+        
+        return final_data
