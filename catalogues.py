@@ -20,13 +20,13 @@ class Catalogue:
         elif name == None:
             self.catalogue = None
         else:
-            self.catalogue = read_catalogue_file(name)
+            self.catalogue = self.read_catalogue_file(name)
             if name == 'rrls':
-                self.catalogue = self.catalogue
+                #self.catalogue = self.catalogue
             else:
-                self.rrls = 
-                self.molecules =
-                self.uf =
+                #self.rrls = 
+                #self.molecules =
+                #self.uf =
 
         return
     
