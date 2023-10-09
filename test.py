@@ -1,4 +1,4 @@
 import pandas as pd
 import catalogues as cat
 
-rrls = cat.Catalogue('rrls.my-lines.list')
+rrls = cat.Catalogue('rrls')
