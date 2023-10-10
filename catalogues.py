@@ -8,6 +8,85 @@ os.path.abspath(os.getcwd())
 class Catalogue:
     """
     Class to read, classify and analyse the obseved lines in PNe
+
+    Attributes
+    ----------
+    catalogue : pandas dataframe
+        Dataframe with the catalogue information
+    rrls : pandas dataframe
+        Dataframe with the radio recombination line catalogue information sorted by
+        element and series
+    molecules : pandas dataframe
+        Dataframe with the molecular line catalogue information sorted by frequency
+    uf : pandas dataframe
+        Dataframe with the unidentified line catalogue information sorted by frequency
+
+    Methods
+    -------
+    read_catalogue_file(name)
+        Function to read the catalogue file and return a pandas dataframe
+    sort_greek(data)
+        Function to sort lines by greek letter
+    classify_rrls(data)
+        Function to classify the rrls by element and series
+    get_rrls(data)
+        Function to get the rrls from an astronomical source catalogue
+    get_molecules(data)
+        Function to get the molecules from an astronomical source catalogue
+    get_uf(data)
+        Function to get the unidentified lines from an astronomical source catalogue
+
+    Parameters
+    ----------
+    name : str
+        Name of the catalogue file to read
+    cat_path : str
+        Path to the catalogue files
+    results_path : str
+        Path to the results folder
+
+    Returns
+    -------
+    catalogue : pandas dataframe
+        Dataframe with the catalogue information
+    rrls : pandas dataframe
+        Dataframe with the radio recombination line catalogue information sorted by
+        element and series
+    molecules : pandas dataframe
+        Dataframe with the molecular line catalogue information sorted by frequency
+    uf : pandas dataframe
+        Dataframe with the unidentified line catalogue information sorted by frequency
+
+    Raises
+    ------
+    FileNotFoundError
+        If the file is not found
+    Exception
+        If there is an error reading the file
+
+    Notes
+    -----
+    The catalogue files must be in the Source_Catalogues folder and must have the
+    following format:
+             1         2         3         4         5         6         7         8         9         0
+    1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+    ----------------------------------------------------------------------------------------------------
+    S  # Species        Freq[MHz] Err[MHz] Eup[K]  Gup  Aij[s-1]    Upper level -- Lower level    Origin
+    ----------------------------------------------------------------------------------------------------
+    C  1 H185\ga         1030.251   0.000     0.0    1  0.00e+00            186 -- 185            rrline
+
+    The columns are:
+    S. Status: D for detected, T for tentative, ? for doubtful, F for failed and C for calculated
+    #. Number of lines displayed (only makes sense when checking lines with summaryV7multi.class)
+    Species. Species name
+    Freq[MHz]. Frequency of the line in MHz
+    Err[MHz]. Error in the frequency of the line in MHz
+    Eup[K]. Upper energy level in Kelvin
+    Gup. Upper degeneracy
+    Aij[s-1]. Einstein coefficient in s^-1
+    Upper level -- Lower level. Upper and lower levels of the transition
+    Origin. Origin of the line: rrline for radio recombination line, unknow for UFs and jpl and
+            cdms for molecular lines
     """
 
     # Paths to catalogues defined from the current directory
