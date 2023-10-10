@@ -161,7 +161,6 @@ class Catalogue:
                                  8: 'Upper',
                                  10: 'Lower',
                                  11: 'Origin'}, inplace=True)
-            #data = self.set_band(data)
             print(name + ' data read successfully')
             return data
         except FileNotFoundError:
@@ -288,6 +287,7 @@ class Catalogue:
         """
         final_data = data[data['Origin'] == 'rrline']
         final_data = self.classify_rrls(final_data)
+        final_data = self.set_band(final_data)
 
         return final_data.reset_index(drop=True)
     
@@ -345,8 +345,15 @@ class Catalogue:
         data : pandas dataframe
             Dataframe with the catalogue information and the frequency band ID
         """
-        for key, value in cls.mmbands.items():
-            data.loc[(data['Freq[MHz]'] >= value[0]) 
-                     & (data['Freq[MHz]'] <= value[1]), 'Band'] = key
-
+        # Create a new column called 'Band'
+        data['Band'] = None
+        # For each line, check the frequency and assign the corresponding band ID in 'Band'
+        for index, row in data.iterrows():
+            for i in range(len(cls.mmbands)):
+                # Check the frequency of the line and assign the corresponding band ID
+                if cls.mmbands[list(cls.mmbands.keys())[i]][0] <= row['Freq[MHz]'] <= cls.mmbands[list(cls.mmbands.keys())[i]][1]:
+                    data.at[index, 'Band'] = list(cls.mmbands.keys())[i]
+                    break
+                else:
+                    continue
         return data
