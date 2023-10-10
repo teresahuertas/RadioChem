@@ -93,6 +93,30 @@ class Catalogue:
     cat_path = './Source_Catalogues/'
     results_path = 'RadioChem/Results/'
 
+    # Milimeter bands
+    mmbands = {'0.9mm' : [277.0e3, 375.0e3],
+               '1mm' : [202.0e3, 274.0e3],
+               '2mm' : [125.0e3, 184.0e3],
+               '3mm' : [73.0e3, 117.0e3],
+               '7mm' : [30.0e3, 50.0e3],
+               '13mm' : [16.0e3, 27.0e3],
+               '25mm' : [8.0e3, 12.0e3],
+               '5cm' : [4.0e3, 8.0e3],
+               '10cm' : [2.0e3, 4.0e3],
+               '20cm' : [1.0e3, 2.0e3]}
+    
+    # Corresponding IEEE band names
+    ieee_bands = {'0.9mm' : 'mm',
+                    '1mm' : 'mm',
+                    '2mm' : 'mm',
+                    '3mm' : 'F',
+                    '7mm' : 'Q',
+                    '13mm' : 'K',
+                    '25mm' : 'X',
+                    '5cm' : 'C',
+                    '10cm' : 'S',
+                    '20cm' : 'L'}
+
     def __init__(self, name=None):
         if not name:
             print('Line catalogue created with any source specified')
@@ -137,6 +161,7 @@ class Catalogue:
                                  8: 'Upper',
                                  10: 'Lower',
                                  11: 'Origin'}, inplace=True)
+            data = self.set_band(data)
             print(name + ' data read successfully')
             return data
         except FileNotFoundError:
@@ -303,3 +328,25 @@ class Catalogue:
         final_data = data[data['Species'].str.startswith('U-')]
         
         return final_data.reset_index(drop=True)
+    
+
+    @classmethod
+    def set_band(cls, data):
+        """
+        Function to set the frequency band ID to each line
+        
+        Parameters
+        ----------
+        data : pandas dataframe
+            Dataframe with the catalogue information
+            
+        Returns
+        -------
+        data : pandas dataframe
+            Dataframe with the catalogue information and the frequency band ID
+        """
+        for key, value in cls.mmbands.items():
+            data.loc[(data['Freq[MHz]'] >= value[0]) 
+                     & (data['Freq[MHz]'] <= value[1]), 'Band'] = key
+
+        return data
