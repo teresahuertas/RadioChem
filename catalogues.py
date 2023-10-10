@@ -362,7 +362,12 @@ class Catalogue:
                 # Check the frequency of the line and assign the corresponding band ID
                 if cls.mmbands[list(cls.mmbands.keys())[i]][0] <= row['Freq[MHz]'] <= cls.mmbands[list(cls.mmbands.keys())[i]][1]:
                     data.at[index, 'Band'] = list(cls.mmbands.keys())[i]
+                    # If 'Band' is 7mm, 13mm, 25mm, 5cm, 10cm or 20cm, change the name to the
+                    # corresponding IEEE band name
+                    if list(cls.mmbands.keys())[i] in ['7mm', '13mm', '25mm', '5cm', '10cm', '20cm']:
+                        data.at[index, 'Band'] = cls.ieee_bands[list(cls.mmbands.keys())[i]]
                     break
                 else:
                     continue
+
         return data
