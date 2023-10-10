@@ -342,7 +342,7 @@ class Catalogue:
         """
         final_data = data[data['Species'].str.startswith('U-')]
         final_data = self.set_band(final_data)
-        final_data = self.set_observed_antenna(final_data)
+        #final_data = self.set_observed_antenna(final_data)
         
         return final_data.reset_index(drop=True)
     
@@ -362,18 +362,33 @@ class Catalogue:
         data : pandas dataframe
             Dataframe with the catalogue information and the frequency band ID
         """
-        # Create a new column called 'Band'
-        #data['Band'] = None
-        # For each line, check the frequency and assign the corresponding band ID in 'Band'
-        for index, row in data.iterrows():
+        # Create a new data frame called final_data -> esto lo hacemos para resolver un problema
+        # en el que pandas crea una copia del data frame original y no permitía modificarlo
+        final_data = pd.DataFrame(columns=['Status',
+                                           'Species',
+                                           'Freq[MHz]',
+                                           'Upper',
+                                           'Lower',
+                                           'Origin',
+                                           'Band'])
+        final_data['Status'] = data['Status']
+        final_data['Species'] = data['Species']
+        final_data['Freq[MHz]'] = data['Freq[MHz]']
+        final_data['Upper'] = data['Upper']
+        final_data['Lower'] = data['Lower']
+        final_data['Origin'] = data['Origin']
+        final_data['Band'] = None
+
+        for index, row in final_data.iterrows():
+            # Copy, line by line, the information from the original data frame
             for i in range(len(cls.mmbands)):
                 # Check the frequency of the line and assign the corresponding band ID
                 if cls.mmbands[list(cls.mmbands.keys())[i]][0] <= row['Freq[MHz]'] <= cls.mmbands[list(cls.mmbands.keys())[i]][1]:
-                    data.loc[index, 'Band'] = list(cls.mmbands.keys())[i]
+                    final_data.loc[index, 'Band'] = list(cls.mmbands.keys())[i]
                     # If 'Band' is 7mm, 13mm, 25mm, 5cm, 10cm or 20cm, change the name to the
                     # corresponding IEEE band name
                     if list(cls.mmbands.keys())[i] in ['7mm', '13mm', '25mm', '5cm', '10cm', '20cm']:
-                        data.loc[index, 'Band'] = cls.ieee_bands[list(cls.mmbands.keys())[i]]
+                        final_data.loc[index, 'Band'] = cls.ieee_bands[list(cls.mmbands.keys())[i]]
                     break
                 else:
                     continue
@@ -403,7 +418,7 @@ class Catalogue:
                 # Check the frequency of the line and assign the corresponding antenna
                 if cls.telescopes[list(cls.telescopes.keys())[i]][0] <= row['Freq[MHz]'] <= cls.telescopes[list(cls.telescopes.keys())[i]][1]:
                     data.loc[index, 'Telescope'] = list(cls.telescopes.keys())[i]
-                    print(data.loc[index, 'Freq[MHz]'], list(cls.telescopes.keys())[i])
+                    #print(data.loc[index, 'Freq[MHz]'], list(cls.telescopes.keys())[i])
                     break
                 else:
                     continue
