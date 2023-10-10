@@ -162,12 +162,12 @@ class Catalogue:
                                  10: 'Lower',
                                  11: 'Origin'}, inplace=True)
             # Change data type of columns
-            data['Status'] = data['Status'].astype(str)
+            '''data['Status'] = data['Status'].astype(str)
             data['Species'] = data['Species'].astype(str)
             data['Freq[MHz]'] = data['Freq[MHz]'].astype(float)
             data['Upper'] = data['Upper'].astype(int)
             data['Lower'] = data['Lower'].astype(int)
-            data['Origin'] = data['Origin'].astype(str)
+            data['Origin'] = data['Origin'].astype(str)'''
             print(name + ' data read successfully')
             return data
         except FileNotFoundError:
