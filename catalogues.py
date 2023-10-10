@@ -294,7 +294,7 @@ class Catalogue:
         """
         final_data = data[data['Origin'] == 'rrline']
         final_data = self.classify_rrls(final_data)
-        #final_data = self.set_band(final_data)
+        final_data = self.set_band(final_data)
 
         return final_data.reset_index(drop=True)
     
@@ -314,6 +314,7 @@ class Catalogue:
             Dataframe with the catalogue information sorted by element and series
         """
         final_data = data[~data['Origin'].isin(['rrline', 'unknow'])]
+        final_data = self.set_band(final_data)
         
         return final_data.reset_index(drop=True)
     
@@ -333,6 +334,7 @@ class Catalogue:
             Dataframe with the catalogue information sorted by element and series
         """
         final_data = data[data['Species'].str.startswith('U-')]
+        final_data = self.set_band(final_data)
         
         return final_data.reset_index(drop=True)
     
