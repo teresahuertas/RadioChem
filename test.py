@@ -6,4 +6,4 @@ import catalogues as cat
 ic418 = cat.Catalogue('IC418')
 #print(ic418.rrls)
 #print(ic418.molecules)
-#print(ic418.uf)
+print(ic418.uf)

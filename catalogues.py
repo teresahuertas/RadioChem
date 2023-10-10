@@ -1,5 +1,6 @@
-import pandas as pd
 import os
+import numpy as np
+import pandas as pd
 
 
 os.path.abspath(os.getcwd())
@@ -94,34 +95,34 @@ class Catalogue:
     results_path = 'RadioChem/Results/'
 
     # Milimeter bands
-    mmbands = {'0.9mm' : [277.0e3, 375.0e3],
-               '1mm' : [202.0e3, 274.0e3],
-               '2mm' : [125.0e3, 184.0e3],
-               '3mm' : [73.0e3, 117.0e3],
-               '7mm' : [30.0e3, 50.0e3],
-               '13mm' : [16.0e3, 27.0e3],
-               '25mm' : [8.0e3, 12.0e3],
-               '5cm' : [4.0e3, 8.0e3],
-               '10cm' : [2.0e3, 4.0e3],
-               '20cm' : [1.0e3, 2.0e3]}
+    mmbands = np.array([['0.9mm', 277.0e3, 375.0e3],
+                        ['1mm', 202.0e3, 274.0e3],
+                        ['2mm', 125.0e3, 184.0e3],
+                        ['3mm', 73.0e3, 117.0e3],
+                        ['7mm', 30.0e3, 50.0e3],
+                        ['13mm', 16.0e3, 27.0e3],
+                        ['25mm', 8.0e3, 12.0e3],
+                        ['5cm', 4.0e3, 8.0e3],
+                        ['10cm', 2.0e3, 4.0e3],
+                        ['20cm', 1.0e3, 2.0e3]])
     
     # Corresponding IEEE band names
-    ieee_bands = {'0.9mm' : 'mm',
-                    '1mm' : 'mm',
-                    '2mm' : 'mm',
-                    '3mm' : 'F',
-                    '7mm' : 'Q',
-                    '13mm' : 'K',
-                    '25mm' : 'X',
-                    '5cm' : 'C',
-                    '10cm' : 'S',
-                    '20cm' : 'L'}
+    ieee_bands = np.array([['0.9mm', 'mm'],
+                           ['1mm', 'mm'],
+                           ['2mm', 'mm'],
+                           ['3mm', 'F'],
+                           ['7mm', 'Q'],
+                           ['13mm', 'K'],
+                           ['25mm', 'X'],
+                           ['5cm', 'C'],
+                           ['10cm', 'S'],
+                           ['20cm', 'L']])
     
     # Antennas and observing windows
-    telescopes = {'IRAM30m' : [225.05e3, 232.837e3],
-                  'IRAM30m' : [130.85e3, 139.1e3],
-                  'IRAM30m' : [81.5e3, 89.76e3],
-                  'Yebes40m' : [31.53e3, 50e3]}
+    telescopes = np.array([['IRAM30m', 225.05e3, 232.837e3],
+                           ['IRAM30m', 130.85e3, 139.1e3],
+                           ['IRAM30m', 81.5e3, 89.76e3],
+                           ['Yebes40m', 31.53e3, 50e3]])
 
     def __init__(self, name=None):
         if not name:
@@ -341,7 +342,7 @@ class Catalogue:
         """
         final_data = data[data['Species'].str.startswith('U-')]
         final_data = self.set_band(final_data)
-        final_data = self.set_observed_antenna(final_data)
+        #final_data = self.set_observed_antenna(final_data)
         
         return final_data.reset_index(drop=True)
     
@@ -364,18 +365,23 @@ class Catalogue:
         # Create a new column called 'Band'
         data['Band'] = None
         # For each line, check the frequency and assign the corresponding band ID in 'Band'
-        for index, row in data.iterrows():
-            for i in range(len(cls.mmbands)):
+        for i in range(len(cls.mmbands)):
+            data.loc[(data['Freq[MHz]'] >= float(cls.mmbands[i,1])) 
+                     & (data['Freq[MHz]'] <= float(cls.mmbands[i,2])), 'Band'] = cls.mmbands[i,0]
+            if cls.mmbands[i,0] in ['7mm', '13mm', '25mm', '5cm', '10cm', '20cm']:
+                data['Band'] = cls.ieee_bands[i,0]
+        #for index, row in data.iterrows():
+        #    for i in range(len(cls.mmbands)):
                 # Check the frequency of the line and assign the corresponding band ID
-                if cls.mmbands[list(cls.mmbands.keys())[i]][0] <= row['Freq[MHz]'] <= cls.mmbands[list(cls.mmbands.keys())[i]][1]:
-                    data.loc[index, 'Band'] = list(cls.mmbands.keys())[i]
+        #        if cls.mmbands[list(cls.mmbands.keys())[i]][0] <= row['Freq[MHz]'] <= cls.mmbands[list(cls.mmbands.keys())[i]][1]:
+        #            data.loc[index, 'Band'] = list(cls.mmbands.keys())[i]
                     # If 'Band' is 7mm, 13mm, 25mm, 5cm, 10cm or 20cm, change the name to the
                     # corresponding IEEE band name
-                    if list(cls.mmbands.keys())[i] in ['7mm', '13mm', '25mm', '5cm', '10cm', '20cm']:
-                        data.loc[index, 'Band'] = cls.ieee_bands[list(cls.mmbands.keys())[i]]
-                    break
-                else:
-                    continue
+        #            if list(cls.mmbands.keys())[i] in ['7mm', '13mm', '25mm', '5cm', '10cm', '20cm']:
+        #                data.loc[index, 'Band'] = cls.ieee_bands[list(cls.mmbands.keys())[i]]
+        #            break
+        #        else:
+        #            continue
 
         return data
     
