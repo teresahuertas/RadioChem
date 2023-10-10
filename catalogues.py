@@ -116,6 +116,12 @@ class Catalogue:
                     '5cm' : 'C',
                     '10cm' : 'S',
                     '20cm' : 'L'}
+    
+    # Antennas and observing windows
+    telescopes = {'IRAM30m' : [225.05e3, 232.837e3],
+                  'IRAM30m' : [130.85e3, 139.1e3],
+                  'IRAM30m' : [81.5e3, 89.76e3],
+                  'Yebes40m' : [31.53e3, 50e3]}
 
     def __init__(self, name=None):
         if not name:
@@ -330,11 +336,12 @@ class Catalogue:
 
         Returns
         -------
-        self.uf : pandas dataframe
-            Dataframe with the catalogue information sorted by element and series
+        final_data : pandas dataframe
+            Dataframe with the catalogue information sorted by frequency
         """
         final_data = data[data['Species'].str.startswith('U-')]
         final_data = self.set_band(final_data)
+        final_data = self.set_observed_antenna(final_data)
         
         return final_data.reset_index(drop=True)
     
@@ -361,11 +368,41 @@ class Catalogue:
             for i in range(len(cls.mmbands)):
                 # Check the frequency of the line and assign the corresponding band ID
                 if cls.mmbands[list(cls.mmbands.keys())[i]][0] <= row['Freq[MHz]'] <= cls.mmbands[list(cls.mmbands.keys())[i]][1]:
-                    data.at[index, 'Band'] = list(cls.mmbands.keys())[i]
+                    data.loc[index, 'Band'] = list(cls.mmbands.keys())[i]
                     # If 'Band' is 7mm, 13mm, 25mm, 5cm, 10cm or 20cm, change the name to the
                     # corresponding IEEE band name
                     if list(cls.mmbands.keys())[i] in ['7mm', '13mm', '25mm', '5cm', '10cm', '20cm']:
-                        data.at[index, 'Band'] = cls.ieee_bands[list(cls.mmbands.keys())[i]]
+                        data.loc[index, 'Band'] = cls.ieee_bands[list(cls.mmbands.keys())[i]]
+                    break
+                else:
+                    continue
+
+        return data
+    
+
+    @classmethod
+    def set_observed_antenna(cls, data):
+        """
+        Function to set the antenna used to get the data depending on the observed range
+
+        Parameters
+        ----------
+        data : pandas dataframe
+            Dataframe with the catalogue information
+
+        Returns
+        -------
+        data : pandas dataframe
+            Dataframe with the catalogue information and the antenna used
+        """
+        data['Telescope'] = None
+        # For each line, check the frequency and assign the corresponding antenna
+        for index, row in data.iterrows():
+            for i in range(len(cls.telescopes)):
+                # Check the frequency of the line and assign the corresponding antenna
+                if cls.telescopes[list(cls.telescopes.keys())[i]][0] <= row['Freq[MHz]'] <= cls.telescopes[list(cls.telescopes.keys())[i]][1]:
+                    data.loc[index, 'Telescope'] = list(cls.telescopes.keys())[i]
+                    print(data.loc[index, 'Freq[MHz]'], list(cls.telescopes.keys())[i])
                     break
                 else:
                     continue
