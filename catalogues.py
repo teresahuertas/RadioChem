@@ -161,7 +161,7 @@ class Catalogue:
                                  8: 'Upper',
                                  10: 'Lower',
                                  11: 'Origin'}, inplace=True)
-            data = self.set_band(data)
+            #data = self.set_band(data)
             print(name + ' data read successfully')
             return data
         except FileNotFoundError:
