@@ -95,7 +95,7 @@ class Catalogue:
     results_path = 'RadioChem/Results/'
 
     # Milimeter bands
-    mmbands = np.array([['0.9mm', 277.0e3, 375.0e3],
+    mmbands = np.array([#['900mum', 277.0e3, 375.0e3],
                         ['1mm', 202.0e3, 274.0e3],
                         ['2mm', 125.0e3, 184.0e3],
                         ['3mm', 73.0e3, 117.0e3],
@@ -107,7 +107,7 @@ class Catalogue:
                         ['20cm', 1.0e3, 2.0e3]])
     
     # Corresponding IEEE band names
-    ieee_bands = np.array([['0.9mm', 'mm'],
+    ieee_bands = np.array([#['900mum', 'mm'],
                            ['1mm', 'mm'],
                            ['2mm', 'mm'],
                            ['3mm', 'F'],
@@ -363,7 +363,7 @@ class Catalogue:
             Dataframe with the catalogue information and the frequency band ID
         """
         # Create a new column called 'Band'
-        data['Band'] = None
+        #data['Band'] = None
         # For each line, check the frequency and assign the corresponding band ID in 'Band'
         for i in range(len(cls.mmbands)):
             data.loc[(data['Freq[MHz]'] >= float(cls.mmbands[i,1])) 
