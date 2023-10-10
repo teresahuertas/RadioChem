@@ -161,6 +161,13 @@ class Catalogue:
                                  8: 'Upper',
                                  10: 'Lower',
                                  11: 'Origin'}, inplace=True)
+            # Change data type of columns
+            data['Status'] = data['Status'].astype(str)
+            data['Species'] = data['Species'].astype(str)
+            data['Freq[MHz]'] = data['Freq[MHz]'].astype(float)
+            data['Upper'] = data['Upper'].astype(int)
+            data['Lower'] = data['Lower'].astype(int)
+            data['Origin'] = data['Origin'].astype(str)
             print(name + ' data read successfully')
             return data
         except FileNotFoundError:
@@ -287,7 +294,7 @@ class Catalogue:
         """
         final_data = data[data['Origin'] == 'rrline']
         final_data = self.classify_rrls(final_data)
-        final_data = self.set_band(final_data)
+        #final_data = self.set_band(final_data)
 
         return final_data.reset_index(drop=True)
     
