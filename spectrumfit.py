@@ -37,3 +37,31 @@ def read_spectrum(filename):
     except Exception as e:
         print(f'Error reading file {filename}: {e}')
         return None
+
+
+def set_units(data, restfreq):
+    """
+    Function to set the units of the data
+
+    Parameters
+    ----------
+    data : pandas.DataFrame
+        Data read from the file
+    restfreq : float
+        Rest frequency of the spectrum
+        
+    Returns
+    -------
+    data : pandas.DataFrame
+        Data with units set
+    """
+    # Define equivalence velocity - frequency
+    vel_to_freq = [(u.km/u.s, u.MHz, 
+                    lambda x: (1-x/si.c.to_value('km/s')) * restfreq,
+                    lambda x: (restfreq-x) / restfreq * si.c.to_value('km/s'))]
+    
+    # Set units
+    data['rx(km/s)'] = (data['rx(km/s)'].values * u.km / u.s).to(u.MHz, equivalencies=vel_to_freq)
+    data['ry(Tmb)'] = data['ry(Tmb)'].values * u.K
+
+    return data
