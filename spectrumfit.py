@@ -110,3 +110,27 @@ def line_inspector(spectrum, rms, line_type=None):
         return lines[lines['line_type'] == 'absorption']
     else:
         return lines
+    
+
+def plot_spectrum(spectrum, lines=None):
+    """
+    Function to plot a spectrum
+
+    Parameters
+    ----------
+    spectrum : specutils.Spectrum1D
+        Spectrum to plot
+    lines : QTable, optional
+        Table with the detected lines to plot
+    """
+    fig, ax = plt.subplots()
+    ax.plot(spectrum.spectral_axis, spectrum.flux)
+    ax.hlines(0.0, min(spectrum.spectral_axis/u.MHz), 
+              max(spectrum.spectral_axis/u.MHz), color='black')
+    if lines is not None:
+        ax.vlines([lines['line_center']], 0, max(spectrum.flux/u.K), colors='r')
+    ax.set_xlabel(spectrum.spectral_axis.unit)
+    ax.set_ylabel(spectrum.flux.unit)
+    plt.show()
+
+    return None
