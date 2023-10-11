@@ -54,8 +54,8 @@ def create_spectrum(data, restfreq, vel):
         
     Returns
     -------
-    data : pandas.DataFrame
-        Data with units set
+    spectrum : specutils.Spectrum1D
+        Spectrum created from the data
     """
     # Define equivalence velocity - frequency
     vel_to_freq = [(u.km/u.s, u.MHz, 
@@ -89,8 +89,8 @@ def line_inspector(spectrum, rms, line_type=None):
 
     Returns
     -------
-    lines : pandas.DataFrame
-        DataFrame with the lines found
+    lines : QTable
+        Table with the lines found
     """
     # Set noise region
     noise_region = SpectralRegion(min(spectrum.spectral_axis), 
