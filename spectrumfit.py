@@ -39,9 +39,9 @@ def read_spectrum(filename):
         return None
 
 
-def set_units(data, restfreq):
+def create_spectrum(data, restfreq, vel):
     """
-    Function to set the units of the data
+    Function to create a spectrum from a data frame
 
     Parameters
     ----------
@@ -49,6 +49,8 @@ def set_units(data, restfreq):
         Data read from the file
     restfreq : float
         Rest frequency of the spectrum
+    vel : float
+        Velocity of the source
         
     Returns
     -------
@@ -61,7 +63,12 @@ def set_units(data, restfreq):
                     lambda x: (restfreq * u.MHz -x) / (restfreq * u.MHz) * si.c.to_value('km/s'))]
     
     # Set units
-    data['rx(km/s)'] = (data['rx(km/s)'].values * u.km / u.s).to(u.MHz, equivalencies=vel_to_freq)
-    data['ry(Tmb)'] = data['ry(Tmb)'].values * u.K
+    frequency = (data['rx(km/s)'].values * u.km / u.s).to(u.MHz, equivalencies=vel_to_freq)
+    flux = data['ry(Tmb)'].values * u.K
 
-    return data
+    spectrum = Spectrum1D(flux=flux, spectral_axis=frequency,
+                            velocity_convention='radio', 
+                            rest_value=restfreq * u.MHz, 
+                            radial_velocity=vel * u.km / u.s)
+
+    return spectrum
