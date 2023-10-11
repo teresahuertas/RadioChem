@@ -74,7 +74,7 @@ def create_spectrum(data, restfreq, vel):
     return spectrum
 
 
-def line_inspector(spectrum, rms):
+def line_inspector(spectrum, rms, line_type=None):
     """
     Function to find lines in a spectrum
 
@@ -84,6 +84,8 @@ def line_inspector(spectrum, rms):
         Spectrum to find lines
     rms : float
         RMS of the spectrum
+    line_type : str, optional
+        Type of lines to find (emission or absorption)
 
     Returns
     -------
@@ -93,7 +95,11 @@ def line_inspector(spectrum, rms):
     # Set noise region
     noise_region = SpectralRegion(min(spectrum.spectral_axis), 
                                   max(spectrum.spectral_axis))
-    
     lines = find_lines_derivative(spectrum, flux_threshold=rms)
 
-    return lines
+    if line_type == 'emission':
+        return lines[lines['line_type'] == 'emission']
+    elif line_type == 'absorption':
+        return lines[lines['line_type'] == 'absorption']
+    else:
+        return lines
