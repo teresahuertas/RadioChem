@@ -27,8 +27,10 @@ def read_spectrum(filename):
     try:
         data = pd.read_csv(filename, sep='\s+', header=None, names=['rx(km/s)', 'ry(Tmb)'])
         data.astype({'rx(km/s)': 'float64', 'ry(Tmb)': 'float64'}).dtypes
-        data = data[data['ry(Tmb)'] > -1.0]
-        return data
+        #data = data[data['ry(Tmb)'] > -1.0]
+        # Remove lines with values out of range [-1, 1]
+        data = data[(data['ry(Tmb)'] > -1.0) & (data['ry(Tmb)'] < 1.0)]
+        return data.reset_index(drop=True)
     except FileNotFoundError:
         print(f'File {filename} not found')
         return None
