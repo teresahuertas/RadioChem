@@ -66,10 +66,17 @@ def create_spectrum(data, restfreq, vel):
     frequency = (data['rx(km/s)'].values * u.km / u.s).to(u.MHz, equivalencies=vel_to_freq)
     flux = data['ry(Tmb)'].values * u.K
 
+    # Check if restfreq and vel are given with units or not
+    if not isinstance(restfreq, u.quantity.Quantity):
+        restfreq = restfreq * u.MHz
+    if not isinstance(vel, u.quantity.Quantity):
+        vel = vel * u.km / u.s                          
+
+    # Create spectrum
     spectrum = Spectrum1D(flux=flux, spectral_axis=frequency,
                             velocity_convention='radio', 
-                            rest_value=restfreq * u.MHz, 
-                            radial_velocity=vel * u.km / u.s)
+                            rest_value=restfreq, 
+                            radial_velocity=vel)
 
     return spectrum
 
