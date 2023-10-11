@@ -10,4 +10,6 @@ import spectrumfit as sf
 #print(ic418.uf)
 
 spectrum = sf.read_spectrum('IC418_3mm_tmb_fit_velocity.txt')
-print(spectrum)
+#print(spectrum)
+spectrum = sf.set_units(spectrum, 87317.0)
+#print(spectrum.unit)

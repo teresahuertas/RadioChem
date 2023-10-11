@@ -57,8 +57,8 @@ def set_units(data, restfreq):
     """
     # Define equivalence velocity - frequency
     vel_to_freq = [(u.km/u.s, u.MHz, 
-                    lambda x: (1-x/si.c.to_value('km/s')) * restfreq,
-                    lambda x: (restfreq-x) / restfreq * si.c.to_value('km/s'))]
+                    lambda x: (1-x/si.c.to_value('km/s')) * (restfreq * u.MHz),
+                    lambda x: (restfreq * u.MHz -x) / (restfreq * u.MHz) * si.c.to_value('km/s'))]
     
     # Set units
     data['rx(km/s)'] = (data['rx(km/s)'].values * u.km / u.s).to(u.MHz, equivalencies=vel_to_freq)
