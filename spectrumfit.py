@@ -72,3 +72,28 @@ def create_spectrum(data, restfreq, vel):
                             radial_velocity=vel * u.km / u.s)
 
     return spectrum
+
+
+def line_inspector(spectrum, rms):
+    """
+    Function to find lines in a spectrum
+
+    Parameters
+    ----------
+    spectrum : specutils.Spectrum1D
+        Spectrum to find lines
+    rms : float
+        RMS of the spectrum
+
+    Returns
+    -------
+    lines : pandas.DataFrame
+        DataFrame with the lines found
+    """
+    # Set noise region
+    noise_region = SpectralRegion(min(spectrum.spectral_axis), 
+                                  max(spectrum.spectral_axis))
+    
+    lines = find_lines_derivative(spectrum, flux_threshold=rms)
+
+    return lines
