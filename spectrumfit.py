@@ -5,9 +5,10 @@ import matplotlib.pyplot as plt
 
 from astropy import units as u
 from astropy.constants import si
+from astropy.table import QTable
 
 from specutils import Spectrum1D, SpectralRegion
-from specutils.analysis import snr_derived
+from specutils.analysis import equivalent_width, snr_derived
 from specutils.fitting import fit_generic_continuum, find_lines_derivative, find_lines_threshold
 from specutils.manipulation import noise_region_uncertainty
 
@@ -115,11 +116,27 @@ def line_inspector(spectrum, rms, source, line_type=None):
     noise_region = SpectralRegion(min(spectrum.spectral_axis), 
                                   max(spectrum.spectral_axis))
     lines = find_lines_derivative(spectrum, flux_threshold=rms)
+    clean_lines = QTable(names=('line_center', 'line_type', 'line_center_index'),
+                            dtype=('float64', 'str', 'int64'))
 
     if line_type == 'emission':
+        # Check line width for each emission line
+        freq_width = line_freq_width(87317.0)
+        for i in range(1, len(lines)):
+            if abs(lines[i]['line_center'] - lines[i-1]['line_center']) > freq_width/2:
+                print(i, lines[i]['line_center'])
+                clean_lines.add_row([lines[i]['line_center'], lines[i]['line_type'], lines[i]['line_center_index']])
+            else:
+                print(i, 'No')
+                #del lines[i]
+            #if equivalent_width(spectrum, regions=SpectralRegion(lines[i]['line_center']-10 * u.MHz, 
+            #                                                     lines[i]['line_center']+10 * u.MHz)) < freq_width:
+            #    lines.remove_row(i)
         # Save lines to file
-        lines.write(f'{source}_emission_lines.txt', format='ascii.ecsv', overwrite=True)
-        return lines[lines['line_type'] == 'emission']
+        clean_lines.write(f'{source}_emission_lines.txt', format='ascii.ecsv', overwrite=True)
+        #print(lines[1]['line_center'])
+        #print(lines.info)
+        return clean_lines[clean_lines['line_type'] == 'emission'] #lines[lines['line_type'] == 'emission']
     elif line_type == 'absorption':
         # Save lines to file
         lines.write(f'{source}_absorption_lines.txt', format='ascii.ecsv', overwrite=True)
