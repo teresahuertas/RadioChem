@@ -7,6 +7,7 @@ from astropy import units as u
 from astropy.constants import si
 
 from specutils import Spectrum1D, SpectralRegion
+from specutils.analysis import snr_derived
 from specutils.fitting import fit_generic_continuum, find_lines_derivative, find_lines_threshold
 from specutils.manipulation import noise_region_uncertainty
 
@@ -86,6 +87,8 @@ def create_spectrum(data, restfreq, vel):
                             velocity_convention='radio', 
                             rest_value=restfreq, 
                             radial_velocity=vel)
+    
+    print('snr: ', snr_derived(spectrum))
 
     return spectrum
 
