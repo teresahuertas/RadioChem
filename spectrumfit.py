@@ -10,14 +10,16 @@ from specutils.fitting import fit_generic_continuum, find_lines_derivative, find
 from specutils.manipulation import noise_region_uncertainty
 
 
-def read_spectrum(filename):
+def read_spectrum(n, filename):
     """
     Function to read a spectrum from a file
 
     Parameters
     ----------
-    filename : str
-        Name of the file to read
+    n : int
+        Number of files to read
+    filename : list
+        List of files to read
 
     Returns
     -------
@@ -25,7 +27,9 @@ def read_spectrum(filename):
         Data read from the file
     """
     try:
-        data = pd.read_csv(filename, sep='\s+', header=None, names=['rx(km/s)', 'ry(Tmb)'])
+        for i in range(n):
+            dat = pd.read_csv(filename[i], sep='\s+', header=None, names=['rx(km/s)', 'ry(Tmb)'])
+            data = dat if i == 0 else pd.concat([data, dat], ignore_index=True)
         data.astype({'rx(km/s)': 'float64', 'ry(Tmb)': 'float64'}).dtypes
         #data = data[data['ry(Tmb)'] > -1.0]
         # Remove lines with values out of range [-1, 1]
