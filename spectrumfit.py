@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -8,6 +9,9 @@ from astropy.constants import si
 from specutils import Spectrum1D, SpectralRegion
 from specutils.fitting import fit_generic_continuum, find_lines_derivative, find_lines_threshold
 from specutils.manipulation import noise_region_uncertainty
+
+
+os.path.abspath(os.getcwd())
 
 
 def read_spectrum(n, filename):
@@ -27,9 +31,10 @@ def read_spectrum(n, filename):
         Data read from the file
     """
     try:
-        for i in range(n):
-            dat = pd.read_csv(filename[i], sep='\s+', header=None, names=['rx(km/s)', 'ry(Tmb)'])
-            data = dat if i == 0 else pd.concat([data, dat], ignore_index=True)
+        data = pd.concat((pd.read_csv('./' + f, sep='\s+', header=None, names=['rx(km/s)', 'ry(Tmb)']) for f in filename), ignore_index=True)
+        #for i in range(n):
+        #    dat = pd.read_csv(filename[i], sep='\s+', header=None, names=['rx(km/s)', 'ry(Tmb)'])
+        #    data = dat if i == 0 else pd.concat([data, dat], ignore_index=True)
         data.astype({'rx(km/s)': 'float64', 'ry(Tmb)': 'float64'}).dtypes
         #data = data[data['ry(Tmb)'] > -1.0]
         # Remove lines with values out of range [-1, 1]

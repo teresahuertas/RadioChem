@@ -10,9 +10,9 @@ import spectrumfit as sf
 #print(ic418.molecules)
 #print(ic418.uf)
 
-files = ['IC418_3mm_tmb_fit_velocity.txt', 'IC418_2mm_tmb_fit_velocity.txt']
+files = ['IC418_3mm_tmb_fit_velocity.txt']#, 'IC418_2mm_tmb_fit_velocity.txt']
 
-spectrum = sf.read_spectrum(2, files)
+spectrum = sf.read_spectrum(1, files)
 #print(spectrum)
 #spectrum = sf.create_spectrum(spectrum, 87317.0, 42.59999847412109)
 #print(spectrum.unit)
