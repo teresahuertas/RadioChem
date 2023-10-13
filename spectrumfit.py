@@ -81,7 +81,7 @@ def create_spectrum(data, restfreq, vel):
     return spectrum
 
 
-def line_inspector(spectrum, rms, line_type=None):
+def line_inspector(spectrum, rms, source, line_type=None):
     """
     Function to find lines in a spectrum
 
@@ -105,10 +105,16 @@ def line_inspector(spectrum, rms, line_type=None):
     lines = find_lines_derivative(spectrum, flux_threshold=rms)
 
     if line_type == 'emission':
+        # Save lines to file
+        lines.write(f'{source}_emission_lines.txt', format='ascii.ecsv', overwrite=True)
         return lines[lines['line_type'] == 'emission']
     elif line_type == 'absorption':
+        # Save lines to file
+        lines.write(f'{source}_absorption_lines.txt', format='ascii.ecsv', overwrite=True)
         return lines[lines['line_type'] == 'absorption']
     else:
+        # Save lines to file
+        lines.write(f'{source}_lines.txt', format='ascii.ecsv', overwrite=True)
         return lines
     
 
