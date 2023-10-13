@@ -140,3 +140,36 @@ def plot_spectrum(spectrum, lines=None):
     plt.show()
 
     return None
+
+
+def line_freq_width(restfreq, vel_width=None):
+    """
+    Function to calculate the line width in units of frequency
+
+    Parameters
+    ----------
+    restfreq : float
+        Rest frequency of the line
+    vel_width : float, optional
+        Velocity width of the line
+        Default: 50 km/s
+
+    Returns
+    -------
+    freq_width : float
+        Line width in units of frequency
+    """
+    # Check if restfreq is given with units or not
+    if not isinstance(restfreq, u.quantity.Quantity):
+        restfreq = restfreq * u.MHz
+
+    if vel_width == None:
+        vel_width = 50.0 * u.km / u.s
+    else:
+        # Check if vel_width is given with units or not
+        if not isinstance(vel_width, u.quantity.Quantity):
+            vel_width = vel_width * u.km / u.s
+
+    freq_width = abs(restfreq * vel_width / (si.c.to_value('km/s') * u.km / u.s))
+
+    return freq_width

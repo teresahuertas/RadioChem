@@ -15,10 +15,13 @@ spectrum = sf.read_spectrum('IC418_3mm_tmb_fit_velocity.txt')
 spectrum = sf.create_spectrum(spectrum, 87317.0, 42.59999847412109)
 #print(spectrum.unit)
 
-lines = sf.line_inspector(spectrum, 0.002, 'IC418', 'emission')
+#lines = sf.line_inspector(spectrum, 0.002, 'IC418', 'emission')
 #print(lines)
 
-sf.plot_spectrum(spectrum, lines)
+#sf.plot_spectrum(spectrum, lines)
+
+freq = sf.line_freq_width(87317.0, 60)
+print(freq)
 
 '''plt.plot(spectrum.spectral_axis, spectrum.flux)
 plt.xlabel(spectrum.spectral_axis.unit)
