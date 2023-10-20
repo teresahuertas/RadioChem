@@ -175,7 +175,7 @@ class Catalogue:
             #data['Upper'] = data['Upper'].astype(int)
             #data['Lower'] = data['Lower'].astype(int)
             #data['Origin'] = data['Origin'].astype(str)
-            print(name + ' data read successfully')
+            #print(name + ' data read successfully')
             return data
         except FileNotFoundError:
             print('File not found')
