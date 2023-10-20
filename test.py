@@ -2,17 +2,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import catalogues as cat
 from tqdm import tqdm
-#from progress.bar import Bar
 #import spectrumfit as sf
 
 # Set the number of catalogues to work with
 ncat = 3
-
-'''with Bar('Reading catalogues', max=ncat) as bar:
-    for i in range(ncat):
-        rrls = cat.Catalogue('rrls')
-        ic418 = cat.Catalogue('IC418')
-        bar.next()'''
 
 for i in tqdm (range (ncat), desc='Reading catalogues...'):
     rrls = cat.Catalogue('rrls')
@@ -23,7 +16,7 @@ print('Catalogues read successfully!')
 #print(rrls.catalogue)
 #ic418 = cat.Catalogue('IC418')
 #print(ic418.rrls)
-#print(ic418.molecules)
+print(ic418.molecules)
 #print(ic418.uf)
 
 #files = ['IC418_3mm_tmb_fit_velocity.txt']#, 'IC418_2mm_tmb_fit_velocity.txt']

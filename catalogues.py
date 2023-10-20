@@ -108,15 +108,15 @@ class Catalogue:
     
     # Corresponding IEEE band names
     ieee_bands = {'0.9mm' : 'mm',
-                    '1mm' : 'mm',
-                    '2mm' : 'mm',
-                    '3mm' : 'F',
-                    '7mm' : 'Q',
-                    '13mm' : 'K',
-                    '25mm' : 'X',
-                    '5cm' : 'C',
-                    '10cm' : 'S',
-                    '20cm' : 'L'}
+                  '1mm' : 'mm',
+                  '2mm' : 'mm',
+                  '3mm' : 'F',
+                  '7mm' : 'Q',
+                  '13mm' : 'K',
+                  '25mm' : 'X',
+                  '5cm' : 'C',
+                  '10cm' : 'S',
+                  '20cm' : 'L'}
     
     # Antennas and observing windows
     telescopes = {'IRAM30m' : [225.05e3, 232.837e3],
@@ -393,7 +393,7 @@ class Catalogue:
                 else:
                     continue
 
-        return data
+        return final_data
     
 
     @classmethod
