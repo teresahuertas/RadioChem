@@ -13,7 +13,7 @@ for i in tqdm (range (ncat), desc='Reading catalogues...'):
     ngc7027 = cat.Catalogue('NGC_7027')
 print('Catalogues read successfully!')
 
-print(rrls.catalogue)
+#print(rrls.catalogue)
 #ic418 = cat.Catalogue('IC418')
 #print(ic418.rrls)
 #print(ngc7027.molecules)

@@ -133,6 +133,8 @@ class Catalogue:
             self.catalogue = self.read_catalogue_file(name)
             if name == 'rrls':
                 self.catalogue = self.classify_rrls(self.catalogue)
+                #self.set_band(self.catalogue)
+                self.set_observed_antenna(self.catalogue)
             else:
                 self.rrls = self.get_rrls(self.catalogue)
                 self.molecules = self.get_molecules(self.catalogue)
@@ -430,4 +432,23 @@ class Catalogue:
         return data
     
 
-    
+    @classmethod
+    def get_rrls_inbads(cls, data):
+        """
+        Function to get the rrls in the observed bands
+
+        Parameters
+        ----------
+        data : pandas dataframe
+            Dataframe with the rrls general catalogue
+
+        Returns
+        -------
+        final_data : pandas dataframe
+            Dataframe with the rrls in the observed bands
+        """
+        final_data = data[data['Telescope'].isin(cls.telescopes.keys())]
+
+        print(final_data)
+
+        return final_data.reset_index(drop=True)
