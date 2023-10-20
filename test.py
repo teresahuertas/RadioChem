@@ -17,7 +17,8 @@ ncat = 3
 for i in tqdm (range (ncat), desc='Reading catalogues...'):
     rrls = cat.Catalogue('rrls')
     ic418 = cat.Catalogue('IC418')
-    #ngc7027 = cat.Catalogue('NGC7027')
+    ngc7027 = cat.Catalogue('NGC_7027')
+print('Catalogues read successfully!')
 
 #print(rrls.catalogue)
 #ic418 = cat.Catalogue('IC418')
