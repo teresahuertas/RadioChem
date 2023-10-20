@@ -119,9 +119,9 @@ class Catalogue:
                   '20cm' : 'L'}
     
     # Antennas and observing windows
-    telescopes = {'IRAM30m' : [225.05e3, 232.837e3],
-                  'IRAM30m' : [130.85e3, 139.1e3],
-                  'IRAM30m' : [81.5e3, 89.76e3],
+    telescopes = {'IRAM30m-E2' : [225.05e3, 232.837e3],
+                  'IRAM30m-E1' : [130.85e3, 139.1e3],
+                  'IRAM30m-E0' : [81.5e3, 89.76e3],
                   'Yebes40m' : [31.53e3, 50e3]}
 
     def __init__(self, name=None):
@@ -324,6 +324,8 @@ class Catalogue:
         final_data = data[~data['Origin'].isin(['rrline', 'unknow'])]
         final_data = self.set_band(final_data)
         final_data = self.set_observed_antenna(final_data)
+        # Sort by name and frequency
+        final_data = final_data.sort_values(by=['Species', 'Freq[MHz]'])#.reset_index(drop=True)
         
         return final_data.reset_index(drop=True)
     
@@ -426,3 +428,6 @@ class Catalogue:
                     continue
 
         return data
+    
+
+    

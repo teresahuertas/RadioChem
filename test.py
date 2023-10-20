@@ -13,11 +13,11 @@ for i in tqdm (range (ncat), desc='Reading catalogues...'):
     ngc7027 = cat.Catalogue('NGC_7027')
 print('Catalogues read successfully!')
 
-#print(rrls.catalogue)
+print(rrls.catalogue)
 #ic418 = cat.Catalogue('IC418')
 #print(ic418.rrls)
-#print(ic418.molecules)
-print(ngc7027.uf)
+#print(ngc7027.molecules)
+#print(ngc7027.uf)
 
 #files = ['IC418_3mm_tmb_fit_velocity.txt']#, 'IC418_2mm_tmb_fit_velocity.txt']
 
