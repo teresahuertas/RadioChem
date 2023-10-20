@@ -125,10 +125,11 @@ def line_inspector(spectrum, rms, source, line_type=None):
         for i in range(1, len(lines)):
             if abs(lines[i]['line_center'] - lines[i-1]['line_center']) > freq_width/2:
                 print(i, lines[i]['line_center'])
-                clean_lines.add_row([lines[i]['line_center'], lines[i]['line_type'], lines[i]['line_center_index']])
+                clean_lines.add_row([lines[i]['line_center'], 
+                                     lines[i]['line_type'], 
+                                     lines[i]['line_center_index']])
             else:
                 print(i, 'No')
-                #del lines[i]
             #if equivalent_width(spectrum, regions=SpectralRegion(lines[i]['line_center']-10 * u.MHz, 
             #                                                     lines[i]['line_center']+10 * u.MHz)) < freq_width:
             #    lines.remove_row(i)
