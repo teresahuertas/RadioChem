@@ -111,7 +111,7 @@ def create_spectrum(data, restfreq, vel):
         vel = vel * u.km / u.s                          
 
     # Create spectrum
-    spectrum = Spectrum1D(flux=flux, spectral_axis=frequency, 
+    spectrum = Spectrum1D(flux=flux, spectral_axis=frequency+12*u.MHz, 
                           velocity_convention='radio', 
                           rest_value=restfreq, 
                           radial_velocity=vel)
@@ -192,6 +192,35 @@ def plot_spectrum(spectrum, lines=None):
               max(spectrum.spectral_axis/u.MHz), color='black')
     if lines is not None:
         ax.vlines([lines['line_center']], 0, max(spectrum.flux/u.K), colors='r')
+    ax.set_xlabel(spectrum.spectral_axis.unit)
+    ax.set_ylabel(spectrum.flux.unit)
+    plt.show()
+
+    return None
+
+def plot_synthetic_spectrum(spectrum, lines):
+    """
+    Function to plot the synthetic data with the observational spectrum
+
+    Parameters
+    ----------
+    spectrum : specutils.Spectrum1D
+        Spectrum to plot
+    lines : pandas.DataFrame
+        Data with the detected lines to plot
+
+    Returns
+    -------
+    None
+    """
+    fig, ax = plt.subplots()
+    ax.plot(spectrum.spectral_axis, spectrum.flux)
+    ax.hlines(0.0, min(spectrum.spectral_axis/u.MHz), 
+              max(spectrum.spectral_axis/u.MHz), color='black')
+    ax.vlines(lines['Freq[MHz]'], 0, max(spectrum.flux/u.K), colors='r')
+    # Set x-axis limits
+    ax.set_xlim(min(spectrum.spectral_axis/u.MHz), 
+                max(spectrum.spectral_axis/u.MHz))
     ax.set_xlabel(spectrum.spectral_axis.unit)
     ax.set_ylabel(spectrum.flux.unit)
     plt.show()
