@@ -26,6 +26,10 @@ ngc7027 = cat.Catalogue('NGC_7027')
 files = ['IC418_3mm_tmb_fit_velocity.txt']#, 'IC418_2mm_tmb_fit_velocity.txt']
 C60CNp = sf.read_synthetic_spectra('C60CN+/C60CN+.dat')
 C60CNm = sf.read_synthetic_spectra('C60CN-/C60CN-.dat')
+C60CN = sf.read_synthetic_spectra('C60CN0/C60CN.dat')
+C60Fep = sf.read_synthetic_spectra('C60Fe+/C60Fe+_eta66.dat')
+C60Fe = sf.read_synthetic_spectra('C60Fe0/C60Fe_eta66.dat')
+C70p = sf.read_synthetic_spectra('C70+/C70+_2.73K.txt')
 #print(C60CNp)
 
 spectrum = sf.read_spectrum(1, files)
@@ -62,7 +66,16 @@ ax.vlines(C60CNp['Freq[MHz]'], 0, max(spectrum.flux/u.K),
           colors='r', label='C60CN+')
 ax.vlines(C60CNm['Freq[MHz]'], 0, max(spectrum.flux/u.K),
             colors='c', label='C60CN-')
-
+ax.vlines(C60CN['Freq[MHz]'], 0, max(spectrum.flux/u.K),
+            colors='m', label='C60CN')
+ax.vlines(C60Fep['Freq[MHz]'], 0, max(spectrum.flux/u.K),
+            colors='brown', label='C60Fe+')
+ax.vlines(C60Fe['Freq[MHz]'], 0, max(spectrum.flux/u.K),
+            colors='y', label='C60Fe')
+ax.vlines(C70p['Freq[MHz]'], 0, max(spectrum.flux/u.K),
+            colors='k', label='C70+')
+# Add legend outside the plot
+ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
 # Set x-axis limits
 ax.set_xlim(min(spectrum.spectral_axis/u.MHz), 
             max(spectrum.spectral_axis/u.MHz))
