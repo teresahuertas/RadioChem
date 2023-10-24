@@ -119,13 +119,17 @@ class Catalogue:
                   'IRAM30m-E0' : [81.5e3, 89.76e3],
                   'Yebes40m' : [31.53e3, 50e3]}
 
-    def __init__(self, name=None):
+    def __init__(self, path=None, name=None):
         if not name:
             print('Line catalogue created with any source specified')
         elif name == None:
             self.catalogue = None
         else:
-            self.catalogue = self.read_catalogue_file(name)
+            if path == None:
+                self.path = os.path.abspath(os.getcwd()) + '/Source_Catalogues/'
+            else:
+                self.path = path
+            self.catalogue = self.read_catalogue_file(path, name)
             if name == 'rrls':
                 self.catalogue = self.classify_rrls(self.catalogue)
                 #self.set_band(self.catalogue)
