@@ -39,12 +39,10 @@ class Catalogue:
 
     Parameters
     ----------
+    path : str
+        Path to the catalogue files
     name : str
         Name of the catalogue file to read
-    cat_path : str
-        Path to the catalogue files
-    results_path : str
-        Path to the results folder
 
     Returns
     -------
@@ -89,10 +87,7 @@ class Catalogue:
     Origin. Origin of the line: rrline for radio recombination line, unknow for UFs and jpl and
             cdms for molecular lines
     """
-
-    # Paths to catalogues defined from the current directory
-    cat_path = './Source_Catalogues/'
-    results_path = 'RadioChem/Results/'
+    
 
     # Milimeter bands
     mmbands = {'0.9mm' : [277.0e3, 375.0e3],
@@ -143,7 +138,7 @@ class Catalogue:
         return
     
 
-    def read_catalogue_file(self, name, cat_path=cat_path):
+    def read_catalogue_file(self, path, name):
         """
         Function to read the catalogue file and return a pandas dataframe
         
@@ -161,7 +156,7 @@ class Catalogue:
             file_format = [(0, 1), (1, 4), (4, 19), (19, 29), 
                            (29, 37), (37, 45), (45, 50), (50, 60), 
                            (60, 75), (75, 79), (79, 94), (94, 100)]
-            data = pd.read_fwf(cat_path + name + '.my-lines.list', colspecs=file_format, header=None)
+            data = pd.read_fwf(path + name + '.my-lines.list', colspecs=file_format, header=None)
             data = data[5:]
             data.drop([1, 4, 5, 6, 7, 9], axis=1, inplace=True)
             data.rename(columns={0: 'Status',
