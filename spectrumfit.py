@@ -16,18 +16,18 @@ from specutils.manipulation import noise_region_uncertainty
 os.path.abspath(os.getcwd())
 
 
-def read_spectrum(n, path, filename):
+def read_spectrum(path, filename, n=None):
     """
     Function to read a spectrum from a file
 
     Parameters
     ----------
-    n : int
-        Number of files to read
     path : str
         Path to the file
     filename : list
         List of files to read
+    n : int, optional
+        Number of files to read
 
     Returns
     -------
@@ -79,9 +79,36 @@ def read_synthetic_spectra(path, filename):
     except Exception as e:
         print(f'Error reading file {filename}: {e}')
         return None
+    
+
+def get_source_info(filename):
+    """
+    Function to get the source information from the file name
+
+    Parameters
+    ----------
+    filename : str
+        Name of the file to read
+
+    Returns
+    -------
+    source : str
+        Source name
+    band : str
+        Frequency band of the spectrum
+    """
+    # Convert filename to string
+    filename = str(filename)
+    # Get source name
+    source = filename.split('_')[0]
+    # Get frequency band
+    band = filename.split('_')[1].split('.')[0]
+
+    return source, band
 
 
-def create_spectrum(data, restfreq, vel, offset=None):
+#def create_spectrum(data, restfreq, vel, offset=None):
+def create_spectrum(path, filename):
     """
     Function to create a spectrum from a data frame
 
@@ -102,6 +129,28 @@ def create_spectrum(data, restfreq, vel, offset=None):
     spectrum : specutils.Spectrum1D
         Spectrum created from the data
     """
+    # Read spectrum from file
+    data = read_spectrum(path, filename)
+
+    source, band = get_source_info(filename)
+    if source.__contains__('IC418'):
+        vel = 42.59999847412109 * u.km / u.s
+    elif source == 'NGC_7027':
+        vel = 1.0 * u.km / u.s
+    
+    if band == 'Qband':
+        restfreq = 39550.0 * u.MHz
+        offset = 5.5 * u.MHz
+    elif band == '3mm':
+        restfreq = 87317.0 * u.MHz
+        offset = 12.0 * u.MHz
+    elif band == '2mm':
+        restfreq = 136649.0 * u.MHz
+        offset = 18.0 * u.MHz
+    elif band == '1mm':
+        restfreq = 230538.0 * u.MHz
+        offset = 31.0 * u.MHz
+
     # Define equivalence velocity - frequency
     vel_to_freq = [(u.km/u.s, u.MHz, 
                     lambda x: (1-x/si.c.to_value('km/s')) * (restfreq * u.MHz),
@@ -112,12 +161,12 @@ def create_spectrum(data, restfreq, vel, offset=None):
     flux = data['ry(Tmb)'].values * u.K
 
     # Check if restfreq and vel are given with units or not
-    if not isinstance(restfreq, u.quantity.Quantity):
+    '''if not isinstance(restfreq, u.quantity.Quantity):
         restfreq = restfreq * u.MHz
     if not isinstance(vel, u.quantity.Quantity):
         vel = vel * u.km / u.s
     
-    offset = 0.0 * u.MHz if offset is None else offset * u.MHz
+    offset = 0.0 * u.MHz if offset is None else offset * u.MHz'''
 
     # Create spectrum
     spectrum = Spectrum1D(flux=flux, spectral_axis=frequency+offset, 
