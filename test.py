@@ -30,10 +30,14 @@ C60CNm = sf.read_synthetic_spectra('C60CN-/C60CN-.dat')
 
 spectrum = sf.read_spectrum(1, files)
 #print(spectrum)
-spectrum = sf.create_spectrum(spectrum, 87317.0, 42.59999847412109)
+spectrum = sf.create_spectrum(spectrum, 87317.0, 42.59999847412109, 12.0)
 #print(spectrum.unit)
 
 #lines = sf.line_inspector(spectrum, 0.002, 'IC418', 'emission')
+# Save lines to a file
+#with open('lines.txt', 'w') as f:
+#    for line in lines:
+#        f.write(f'{line}\n')
 #print(lines)
 
 #sf.plot_spectrum(spectrum, lines)

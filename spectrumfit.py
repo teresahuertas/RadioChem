@@ -77,7 +77,7 @@ def read_synthetic_spectra(filename):
         return None
 
 
-def create_spectrum(data, restfreq, vel):
+def create_spectrum(data, restfreq, vel, offset=None):
     """
     Function to create a spectrum from a data frame
 
@@ -89,6 +89,9 @@ def create_spectrum(data, restfreq, vel):
         Rest frequency of the spectrum
     vel : float
         Velocity of the source
+    offset : float, optional
+        Offset of the spectrum
+        Default: None
         
     Returns
     -------
@@ -108,10 +111,12 @@ def create_spectrum(data, restfreq, vel):
     if not isinstance(restfreq, u.quantity.Quantity):
         restfreq = restfreq * u.MHz
     if not isinstance(vel, u.quantity.Quantity):
-        vel = vel * u.km / u.s                          
+        vel = vel * u.km / u.s
+    
+    offset = 0.0 * u.MHz if offset is None else offset * u.MHz
 
     # Create spectrum
-    spectrum = Spectrum1D(flux=flux, spectral_axis=frequency+12*u.MHz, 
+    spectrum = Spectrum1D(flux=flux, spectral_axis=frequency+offset, 
                           velocity_convention='radio', 
                           rest_value=restfreq, 
                           radial_velocity=vel)

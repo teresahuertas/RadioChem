@@ -1,0 +1,231 @@
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+81592.02475118893  emission               196
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+81613.90496750327  emission               252
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+81629.14297529371  emission               291
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+81636.56662011478  emission               310
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+81702.20726905811  emission               476
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+81710.80306832465  emission               498
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+81740.88836575695  emission               575
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+81788.55597987061  emission               697
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+81798.71465173092  emission               723
+  line_center    line_type line_center_index
+---------------- --------- -----------------
+81828.7999491635  emission               800
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+81930.77738591473  emission              1061
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+81971.41207335591  emission              1165
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+81983.13361781025  emission              1195
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+82007.35814301552  emission              1257
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+82090.19039049163  emission              1469
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+82106.20983457894  emission              1510
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+82127.69933274499  emission              1565
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+82229.28605134794  emission              1825
+  line_center    line_type line_center_index
+---------------- --------- -----------------
+82270.3114569377  emission              1930
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+82401.98347297293  emission              2267
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+82425.81728002962  emission              2328
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+82471.53130340095  emission              2445
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+82526.62256233569  emission              2586
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+82593.43536572448  emission              2757
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+82834.11774518373  emission              3373
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+82972.82268789144  emission              3728
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+82994.70290420609  emission              3784
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+83066.98576167332  emission              3969
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+83124.81204764728  emission              4117
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+83388.93751601492  emission              4793
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+83581.17084506364  emission              5285
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+83606.17680656578  emission              5349
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+83685.88330885409  emission              5553
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+83698.77700775389  emission              5586
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+83794.89367227809  emission              5832
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+84222.33932670733  emission              6926
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+84350.10416125788  emission              7253
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+84393.08315758969  emission              7363
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+84858.42847242084  emission              8554
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+84913.91044950396  emission              8696
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+84948.68436471802  emission              8785
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+85149.90421118148  emission              9300
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+85281.18550906831  emission              9636
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+85344.87256726937  emission              9799
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+85521.08645223055  emission             10250
+  line_center    line_type line_center_index
+---------------- --------- -----------------
+85687.5323834799  emission             10676
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+85715.66409016996  emission             10748
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+85827.40948063317  emission             11034
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+86451.77708189255  emission             11893
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+86482.25309747343  emission             11971
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+86588.91915200648  emission             12244
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+86683.47294393688  emission             12486
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+86989.40525419102  emission             13269
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+87126.54732430493  emission             13620
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+87228.91547920478  emission             13882
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+87288.30463777264  emission             14034
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+87335.19081558936  emission             14154
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+87613.77285545041  emission             14867
+  line_center    line_type line_center_index
+---------------- --------- -----------------
+87795.8475126387  emission             15333
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+88271.74221747846  emission             16551
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+88404.97710610766  emission             16892
+  line_center    line_type line_center_index
+---------------- --------- -----------------
+88438.9695850248  emission             16979
+  line_center   line_type line_center_index
+--------------- --------- -----------------
+88571.423037357  emission             17318
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+88633.15650481572  emission             17476
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+88810.54254422235  emission             17930
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+88979.33278436253  emission             18362
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+88999.65012808313  emission             18414
+  line_center    line_type line_center_index
+---------------- --------- -----------------
+89100.4554103891  emission             18672
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+89107.87905521007  emission             18691
+  line_center    line_type line_center_index
+---------------- --------- -----------------
+89161.7981596993  emission             18829
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+89197.35351121033  emission             18920
+  line_center    line_type line_center_index
+---------------- --------- -----------------
+89232.1274264244  emission             19009
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+89354.42220689637  emission             19322
+  line_center    line_type line_center_index
+---------------- --------- -----------------
+89622.8455748971  emission             20009
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+89641.99076417225  emission             20058
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+89714.66433978819  emission             20244
+   line_center    line_type line_center_index
+----------------- --------- -----------------
+89760.76908130798  emission             20362
