@@ -16,7 +16,7 @@ from specutils.manipulation import noise_region_uncertainty
 os.path.abspath(os.getcwd())
 
 
-def read_spectrum(n, filename):
+def read_spectrum(n, path, filename):
     """
     Function to read a spectrum from a file
 
@@ -24,6 +24,8 @@ def read_spectrum(n, filename):
     ----------
     n : int
         Number of files to read
+    path : str
+        Path to the file
     filename : list
         List of files to read
 
@@ -33,7 +35,7 @@ def read_spectrum(n, filename):
         Data read from the file
     """
     try:
-        data = pd.concat((pd.read_csv('./' + f, sep='\s+', header=None, names=['rx(km/s)', 'ry(Tmb)']) for f in filename), ignore_index=True)
+        data = pd.concat((pd.read_csv(path + f, sep='\s+', header=None, names=['rx(km/s)', 'ry(Tmb)']) for f in filename), ignore_index=True)
         #for i in range(n):
         #    dat = pd.read_csv(filename[i], sep='\s+', header=None, names=['rx(km/s)', 'ry(Tmb)'])
         #    data = dat if i == 0 else pd.concat([data, dat], ignore_index=True)
@@ -50,12 +52,14 @@ def read_spectrum(n, filename):
         return None
     
 
-def read_synthetic_spectra(filename):
+def read_synthetic_spectra(path, filename):
     """
     Function to read a synthetic spectrum from a file
 
     Parameters
     ----------
+    path : str
+        Path to the file
     filename : str
         Name of the file to read
 
@@ -65,7 +69,7 @@ def read_synthetic_spectra(filename):
         Data read from the file
     """
     try:
-        path = '/Users/teresahuertas/Documents/IAC/Proyectos/Espectros_Sinteticos/GaoLei_Spectra/'
+        #path = '/Users/teresahuertas/Documents/IAC/Proyectos/Espectros_Sinteticos/GaoLei_Spectra/'
         data = pd.read_csv(path + filename, sep='\s+', header=None, names=['Freq[MHz]', 'Aij'], skiprows=8)
         data.astype({'Freq[MHz]': 'float64', 'Aij': 'float64'}).dtypes
         return data.reset_index(drop=True)
