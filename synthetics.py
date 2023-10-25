@@ -65,22 +65,22 @@ def plot_synthetic_spectrum(source, obs_spectra, molec_spectra, rrls=None, ufs=N
     ax.plot(obs_spectra.spectral_axis, obs_spectra.flux, 
             label=source, color='navy', linewidth=1.1, alpha=0.8)
     if rrls is not None:
-        ax.vlines(rrls['Freq[MHz]'], 0, max(obs_spectra.flux/u.K),
+        ax.vlines(rrls['Freq[MHz]'], 0, max(obs_spectra.flux/obs_spectra.flux.unit),
                     color='red', linewidth=1.0, label='RRLs')
     if ufs is not None:
-        ax.vlines(ufs['Freq[MHz]'], 0, max(obs_spectra.flux/u.K),
+        ax.vlines(ufs['Freq[MHz]'], 0, max(obs_spectra.flux/obs_spectra.flux.unit),
                     color='green', linewidth=1.0, label='UFs')
     # Plot horizontal grey line at y=0
     ax.axhline(y=0, color='grey', linestyle='--', linewidth=1.2)
     for key, value, value_index in zip(molec_spectra.keys(), molec_spectra.values(), range(len(molec_spectra))):
         # in molec_spectra.items():
         color = cmap(values[value_index])
-        ax.vlines(value['Freq[MHz]'], 0, max(obs_spectra.flux/u.K),
+        ax.vlines(value['Freq[MHz]'], 0, max(obs_spectra.flux/obs_spectra.flux.unit),
                   color=color, linewidth=1.0, label=key)
     
     # Set axis limits
-    ax.set_xlim(min(obs_spectra.spectral_axis/u.MHz), 
-                max(obs_spectra.spectral_axis/u.MHz))
+    ax.set_xlim(min(obs_spectra.spectral_axis/obs_spectra.spectral_axis.unit), 
+                max(obs_spectra.spectral_axis/obs_spectra.spectral_axis.unit))
     
     # Set legend outside the plot
     ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
