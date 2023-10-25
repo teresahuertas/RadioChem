@@ -85,15 +85,10 @@ def create_spectrum(path, filename):
 
     Parameters
     ----------
-    data : pandas.DataFrame
-        Data read from the file
-    restfreq : float
-        Rest frequency of the spectrum
-    vel : float
-        Velocity of the source
-    offset : float, optional
-        Offset of the spectrum
-        Default: None
+    path : str
+        Path to the file
+    filename : str
+        Name of the file to read
         
     Returns
     -------
