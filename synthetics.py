@@ -22,7 +22,6 @@ def read_synthetic_spectra(path, filename):
         Data read from the file
     """
     try:
-        #path = '/Users/teresahuertas/Documents/IAC/Proyectos/Espectros_Sinteticos/GaoLei_Spectra/'
         data = pd.read_csv(path + filename, sep='\s+', header=None, names=['Freq[MHz]', 'Aij'], skiprows=8)
         data.astype({'Freq[MHz]': 'float64', 'Aij': 'float64'}).dtypes
         return data.reset_index(drop=True)
