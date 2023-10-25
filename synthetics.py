@@ -34,7 +34,7 @@ def read_synthetic_spectra(path, filename):
         return None
     
 
-def plot_synthetic_spectrum(source, obs_spectra, molec_spectra, rrls=None, ufs=None, molecules=None):
+def plot_synthetic_spectrum(source, obs_spectra, molec_spectra, rrls=None, ufs=None, molecules=None, names=None):
     """
     Function to plot the observational and synthetic spectra
 
@@ -52,6 +52,8 @@ def plot_synthetic_spectrum(source, obs_spectra, molec_spectra, rrls=None, ufs=N
         Dataframe with the UFs frequencies
     molecules : dataframe, optional
         Dataframe with the molecules frequencies
+    names : boolean, optional
+        Boolean to indicate whether to plot the names of the species or not
 
     Returns
     -------
@@ -66,17 +68,38 @@ def plot_synthetic_spectrum(source, obs_spectra, molec_spectra, rrls=None, ufs=N
     fig, ax = plt.subplots(figsize=(10, 6))
     ax.plot(obs_spectra.spectral_axis, obs_spectra.flux, 
             label=source, color='navy', linewidth=1.1, alpha=0.8)
+    
     if rrls is not None:
         ax.vlines(rrls['Freq[MHz]'], 0, max(obs_spectra.flux/obs_spectra.flux.unit),
-                    color='red', linewidth=1.0, label='RRLs')
+                    color='red', linewidth=1.2, linestyle='--', label='RRLs')
+
     if ufs is not None:
         ax.vlines(ufs['Freq[MHz]'], 0, max(obs_spectra.flux/obs_spectra.flux.unit),
-                    color='green', linewidth=1.0, label='UFs')
+                    color='green', linewidth=1.2, linestyle='--', label='UFs')
+
     if molecules is not None:
         ax.vlines(molecules['Freq[MHz]'], 0, max(obs_spectra.flux/obs_spectra.flux.unit),
-                    color='black', linewidth=1.0, label='Molecules')
+                    color='black', linewidth=1.2, linestyle='--', label='Molecules')
+
+    if names is True:
+        if rrls is not None:
+            for i in range(len(rrls)):
+                ax.text(rrls['Freq[MHz]'][i], -0.02, 
+                        rrls['Species'][i], rotation=90, fontsize=12, color='red')
+        if ufs is not None:
+            for i in range(len(ufs)):
+                ax.text(ufs['Freq[MHz]'][i], -0.02, 
+                        ufs['Species'][i], rotation=90, fontsize=12, color='green')
+        if molecules is not None:
+            for i in range(len(molecules)):
+                ax.text(molecules['Freq[MHz]'][i], -0.03, 
+                        molecules['Species'][i], rotation=90, fontsize=12, color='black')
+    else:
+        pass
+
     # Plot horizontal grey line at y=0
     ax.axhline(y=0, color='grey', linestyle='--', linewidth=1.2)
+
     for key, value, value_index in zip(molec_spectra.keys(), molec_spectra.values(), range(len(molec_spectra))):
         # in molec_spectra.items():
         color = cmap(values[value_index])
