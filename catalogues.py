@@ -65,8 +65,7 @@ class Catalogue:
 
     Notes
     -----
-    The catalogue files must be in the Source_Catalogues folder and must have the
-    following format:
+    The catalogue files must have the following format:
              1         2         3         4         5         6         7         8         9         0
     1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
     ----------------------------------------------------------------------------------------------------
