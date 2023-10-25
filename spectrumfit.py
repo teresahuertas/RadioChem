@@ -78,6 +78,64 @@ def get_source_info(filename):
     return source, band
 
 
+def get_source_param(source, band):
+    """
+    Function to get the source parameters
+
+    Parameters
+    ----------
+    source : str
+        Source name
+    band : str
+        Frequency band of the spectrum
+
+    Returns
+    -------
+    restfreq : float
+        Rest frequency of the line
+    vel : float
+        Velocity of the source
+    offset : float
+        Offset in frequency
+    """
+    try:
+        if source.__contains__('IC418'):
+            vel = 42.59999847412109 * u.km / u.s
+            if band == 'Qband':
+                restfreq = 39550.0 * u.MHz
+                offset = 5.5 * u.MHz
+            elif band == '3mm':
+                restfreq = 87317.0 * u.MHz
+                offset = 12.0 * u.MHz
+            elif band == '2mm':
+                restfreq = 136649.0 * u.MHz
+                offset = 18.0 * u.MHz
+            elif band == '1mm':
+                restfreq = 230538.0 * u.MHz
+                offset = 31.0 * u.MHz
+        elif source.__contains__('NGC7027'):
+            vel = 26.0 * u.km / u.s
+            if band == 'Qband':
+                restfreq = 39550.0 * u.MHz
+                offset = 3.5 * u.MHz
+            elif band == '3mm':
+                restfreq = 87317.0 * u.MHz
+                offset = 7.0 * u.MHz
+            elif band == '2mm':
+                restfreq = 136649.0 * u.MHz
+                offset = 11.0 * u.MHz
+            '''elif band == '1mm':
+                restfreq = 230538.0 * u.MHz
+                offset = 31.0 * u.MHz'''
+            
+        return vel, restfreq, offset
+        
+    except Exception as e:
+        print(f'Error getting source parameters: {e}')
+        
+        return None, None, None
+
+
 #def create_spectrum(data, restfreq, vel, offset=None):
 def create_spectrum(path, filename):
     """
@@ -99,34 +157,7 @@ def create_spectrum(path, filename):
     data = read_spectrum(path, filename)
 
     source, band = get_source_info(filename)
-    if source.__contains__('IC418'):
-        vel = 42.59999847412109 * u.km / u.s
-        if band == 'Qband':
-            restfreq = 39550.0 * u.MHz
-            offset = 5.5 * u.MHz
-        elif band == '3mm':
-            restfreq = 87317.0 * u.MHz
-            offset = 12.0 * u.MHz
-        elif band == '2mm':
-            restfreq = 136649.0 * u.MHz
-            offset = 18.0 * u.MHz
-        elif band == '1mm':
-            restfreq = 230538.0 * u.MHz
-            offset = 31.0 * u.MHz
-    elif source.__contains__('NGC7027'):
-        vel = 26.0 * u.km / u.s
-        if band == 'Qband':
-            restfreq = 39550.0 * u.MHz
-            offset = 3.5 * u.MHz
-        elif band == '3mm':
-            restfreq = 87317.0 * u.MHz
-            offset = 7.0 * u.MHz
-        elif band == '2mm':
-            restfreq = 136649.0 * u.MHz
-            offset = 11.0 * u.MHz
-        elif band == '1mm':
-            restfreq = 230538.0 * u.MHz
-            offset = 31.0 * u.MHz
+    vel, restfreq, offset = get_source_param(source, band)
 
     # Define equivalence velocity - frequency
     vel_to_freq = [(u.km/u.s, u.MHz, 
