@@ -34,7 +34,7 @@ def read_synthetic_spectra(path, filename):
         return None
     
 
-def plot_synthetic_spectrum(source, obs_spectra, molec_spectra, rrls=None, ufs=None):
+def plot_synthetic_spectrum(source, obs_spectra, molec_spectra, rrls=None, ufs=None, molecules=None):
     """
     Function to plot the observational and synthetic spectra
 
@@ -50,6 +50,8 @@ def plot_synthetic_spectrum(source, obs_spectra, molec_spectra, rrls=None, ufs=N
         Dataframe with the RRLs frequencies
     ufs : dataframe, optional
         Dataframe with the UFs frequencies
+    molecules : dataframe, optional
+        Dataframe with the molecules frequencies
 
     Returns
     -------
@@ -70,6 +72,9 @@ def plot_synthetic_spectrum(source, obs_spectra, molec_spectra, rrls=None, ufs=N
     if ufs is not None:
         ax.vlines(ufs['Freq[MHz]'], 0, max(obs_spectra.flux/obs_spectra.flux.unit),
                     color='green', linewidth=1.0, label='UFs')
+    if molecules is not None:
+        ax.vlines(molecules['Freq[MHz]'], 0, max(obs_spectra.flux/obs_spectra.flux.unit),
+                    color='black', linewidth=1.0, label='Molecules')
     # Plot horizontal grey line at y=0
     ax.axhline(y=0, color='grey', linestyle='--', linewidth=1.2)
     for key, value, value_index in zip(molec_spectra.keys(), molec_spectra.values(), range(len(molec_spectra))):
