@@ -157,3 +157,28 @@ def anttemp(molec_spectra, width, dilution=None, tau=None):
         molec_spectra[key] = value
 
     return molec_spectra
+
+
+def create_synth_spectrum(molec_spectra):
+    """
+    Function to create a synthetic spectrum from a dictionary of dataframes
+
+    Parameters
+    ----------
+    molec_spectra : dictionary of dataframes
+        Dictionary of synthetic spectra, each of them stored in a dataframe
+
+    Returns
+    -------
+    synth_spectra : dictionary of specutils.Spectrum1D
+        Dictionary of synthetic spectra, each of them stored in a Spectrum1D object
+    """
+    synth_spectra = {}
+
+    for key, value in molec_spectra.items():
+        # Create a Spectrum1D object from the dataframe
+        spectrum = Spectrum1D(spectral_axis=value['Freq[MHz]'].values * u.MHz, flux=value['T_A'].values * u.K)
+        # Store the Spectrum1D object in the dictionary
+        synth_spectra[key] = spectrum
+
+    return synth_spectra
