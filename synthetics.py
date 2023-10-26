@@ -1,6 +1,8 @@
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.cm import get_cmap
+from astropy import constants as const
 from astropy import units as u
 from specutils import Spectrum1D
 
@@ -118,3 +120,40 @@ def plot_synthetic_spectrum(source, obs_spectra, molec_spectra, rrls=None, ufs=N
     ax.legend()
 
     plt.show()
+
+
+def anttemp(molec_spectra, width, dilution=None, tau=None):
+    """
+    Function to calculate the antenna temperature of a synthetic spectrum
+    
+    Parameters
+    ----------
+    molec_spectra : dictionary of dataframes
+        Dictionary of synthetic spectra, each of them stored in a dataframe
+    width : float
+        Width of the line in velocity units
+    dilution : float, optional
+        Dilution factor
+    tau : float, optional
+        Optical depth
+
+    Returns
+    -------
+    None
+    """
+    if tau is None:
+        corr_tau = 1.0
+    else:
+        corr_tau = tau / (1 - np.exp(-tau))
+    if dilution is None:
+        dilution = 1.0
+    population = 1.0
+    c3 = const.c * const.c * const.c * 1e-3 * 1e-3 * 1e-3
+
+    for key, value in molec_spectra.items():
+        # Calculate the antenna temperature
+        value['T_A'] = const.h * c3 / (8 * np.pi * const.k_B * value['Freq[MHz]'] * value['Freq[MHz]'] * width) * population * value['Aij'] * dilution / corr_tau
+        # Store results in a new column in the dataframe
+        molec_spectra[key] = value
+
+    return molec_spectra
