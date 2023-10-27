@@ -26,6 +26,8 @@ def read_synthetic_spectra(path, filename):
     try:
         data = pd.read_csv(path + filename, sep='\s+', header=None, names=['Freq[MHz]', 'Aij'], skiprows=8)
         data.astype({'Freq[MHz]': 'float64', 'Aij': 'float64'}).dtypes
+        # Remove all rows with data['Aij'] == 0
+        data = data[data['Aij'] != 0]
         return data.reset_index(drop=True)
     except FileNotFoundError:
         print(f'File {filename} not found')
@@ -85,15 +87,15 @@ def plot_synthetic_spectrum(source, obs_spectra, molec_spectra, rrls=None, ufs=N
     if names is True:
         if rrls is not None:
             for i in range(len(rrls)):
-                ax.text(rrls['Freq[MHz]'][i], -0.02, 
+                ax.text(rrls['Freq[MHz]'][i], -0.01, 
                         rrls['Species'][i], rotation=90, fontsize=12, color='red')
         if ufs is not None:
             for i in range(len(ufs)):
-                ax.text(ufs['Freq[MHz]'][i], -0.02, 
+                ax.text(ufs['Freq[MHz]'][i], -0.01, 
                         ufs['Species'][i], rotation=90, fontsize=12, color='green')
         if molecules is not None:
             for i in range(len(molecules)):
-                ax.text(molecules['Freq[MHz]'][i], -0.03, 
+                ax.text(molecules['Freq[MHz]'][i], -0.01, 
                         molecules['Species'][i], rotation=90, fontsize=12, color='black')
     else:
         pass
@@ -101,7 +103,9 @@ def plot_synthetic_spectrum(source, obs_spectra, molec_spectra, rrls=None, ufs=N
     # Plot horizontal grey line at y=0
     ax.axhline(y=0, color='grey', linestyle='--', linewidth=1.2)
 
-    for key, value, value_index in zip(molec_spectra.keys(), molec_spectra.values(), range(len(molec_spectra))):
+    for key, value, value_index in zip(molec_spectra.keys(), 
+                                       molec_spectra.values(), 
+                                       range(len(molec_spectra))):
         # in molec_spectra.items():
         color = cmap(values[value_index])
         ax.vlines(value['Freq[MHz]'], 0, max(obs_spectra.flux/obs_spectra.flux.unit),
