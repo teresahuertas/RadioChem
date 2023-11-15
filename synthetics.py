@@ -56,6 +56,7 @@ def read_synthetic_rrls(path, filename):
     try:
         data = pd.read_csv(path + filename, sep='\s+', header=None, names=['Freq[MHz]', 'Velocity', 'Flux[Jy]', 'LTE corr'])
         data.astype({'Freq[MHz]': 'float64', 'Velocity': 'float64', 'Flux[Jy]': 'float64', 'LTE corr': 'float64'}).dtypes
+        data['T_A'] = flux_to_temp(data)['T_A']
         return data.reset_index(drop=True)
     except FileNotFoundError:
         print(f'File {filename} not found')
@@ -214,3 +215,21 @@ def create_synth_spectrum(molec_spectra):
         synth_spectra[key] = spectrum
 
     return synth_spectra
+
+
+def flux_to_temp(spectrum):
+    """
+    Function to convert a flux spectrum to a temperature spectrum
+
+    Parameters
+    ----------
+    spectrum : pandas.DataFrame
+        Spectrum to convert
+
+    Returns
+    -------
+    spectrum : pandas.DataFrame
+        Converted spectrum
+    """
+    spectrum['T_A'] = spectrum['Flux[Jy]'] * 1e-26 * const.c * const.c / (2 * const.k_B * spectrum['Freq[MHz]'] * 1e6 * spectrum['Freq[MHz]'] * 1e6)
+    return spectrum
