@@ -37,6 +37,34 @@ def read_synthetic_spectra(path, filename):
         return None
     
 
+def read_synthetic_rrls(path, filename):
+    """
+    Function to read the RRLs frequencies from a file
+
+    Parameters
+    ----------
+    path : str
+        Path to the file
+    filename : str
+        Name of the file to read
+
+    Returns
+    -------
+    data : pandas.DataFrame
+        Data read from the file
+    """
+    try:
+        data = pd.read_csv(path + filename, sep='\s+', header=None, names=['Freq[MHz]', 'Velocity', 'Flux[Jy]', 'LTE corr'])
+        data.astype({'Freq[MHz]': 'float64', 'Velocity': 'float64', 'Flux[Jy]': 'float64', 'LTE corr': 'float64'}).dtypes
+        return data.reset_index(drop=True)
+    except FileNotFoundError:
+        print(f'File {filename} not found')
+        return None
+    except Exception as e:
+        print(f'Error reading file {filename}: {e}')
+        return None
+    
+
 def plot_synthetic_spectrum(source, obs_spectra, molec_spectra, rrls=None, ufs=None, molecules=None, names=None):
     """
     Function to plot the observational and synthetic spectra
