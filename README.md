@@ -8,14 +8,6 @@ RadioChem is a python package for the analysis of radiochemistry data. It is des
 - spectrumfit.py: Contains the functions to find spectral lines and fit the spectra. It is under development.
 - synthetics.py: Contains the functions to work with synthetic spectra. It is under development.
 
-## Installation
-
-RadioChem can be installed using pip:
-
-```bash
-pip install radiochem
-```
-
 ## Usage
 
 ```python
