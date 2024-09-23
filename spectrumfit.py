@@ -113,7 +113,7 @@ def get_source_param(source, band):
             elif band == '1mm':
                 restfreq = 230538.0 * u.MHz
                 offset = 31.0 * u.MHz
-        elif source.__contains__('NGC7027'):
+        elif source.__contains__('NGC7027') or source.__contains__('NGC_7027'):
             vel = 26.0 * u.km / u.s
             if band == 'Qband':
                 restfreq = 39550.0 * u.MHz
