@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 
 from astropy import units as u
 from astropy.constants import si
+from astropy.units import equivalencies as eq
 from astropy.table import QTable
 
 from specutils import Spectrum1D, SpectralRegion
@@ -155,26 +156,28 @@ def create_spectrum(path, filename):
     """
     # Read spectrum from file
     data = read_spectrum(path, filename)
+    if data is None:
+        raise ValueError(f"File {filename} not found or could not be read.")
 
     source, band = get_source_info(filename)
     vel, restfreq, offset = get_source_param(source, band)
 
     # Define equivalence velocity - frequency
-    vel_to_freq = [(u.km/u.s, u.MHz, 
-                    lambda x: (1-x/si.c.to_value('km/s')) * (restfreq * u.MHz),
-                    lambda x: (restfreq * u.MHz -x) / (restfreq * u.MHz) * si.c.to_value('km/s'))]
+    vel_to_freq = u.doppler_radio(restfreq * u.MHz)
     
     # Set units
+    if 'rx(km/s)' not in data.columns or 'ry(Tmb)' not in data.columns:
+        raise ValueError("The required columns 'rx(km/s)' and 'ry(Tmb)' are not present in the data.")
     frequency = (data['rx(km/s)'].values * u.km / u.s).to(u.MHz, equivalencies=vel_to_freq)
     flux = data['ry(Tmb)'].values * u.K
 
     # Check if restfreq and vel are given with units or not
-    '''if not isinstance(restfreq, u.quantity.Quantity):
+    if not isinstance(restfreq, u.Quantity):
         restfreq = restfreq * u.MHz
-    if not isinstance(vel, u.quantity.Quantity):
+    if not isinstance(vel, u.Quantity):
         vel = vel * u.km / u.s
     
-    offset = 0.0 * u.MHz if offset is None else offset * u.MHz'''
+    offset = 0.0 * u.MHz if offset is None else offset * u.MHz
 
     # Create spectrum
     spectrum = Spectrum1D(flux=flux, spectral_axis=frequency+offset, 
