@@ -36,14 +36,15 @@ def read_spectrum(path, filename, n=None):
         Data read from the file
     """
     try:
-        data = pd.concat((pd.read_csv(path + f, sep='\s+', header=None, names=['rx(km/s)', 'ry(Tmb)']) for f in filename), ignore_index=True)
+        data = pd.DataFrame
+        full_paths = [os.path.join(path, f) for f in filename]
+        data = pd.concat((pd.read_csv(f, sep='\s+', header=None, names=['rx(km/s)', 'ry(Tmb)']) for f in full_paths), ignore_index=True)
         #for i in range(n):
         #    dat = pd.read_csv(filename[i], sep='\s+', header=None, names=['rx(km/s)', 'ry(Tmb)'])
         #    data = dat if i == 0 else pd.concat([data, dat], ignore_index=True)
-        data = data.astype({'rx(km/s)': 'float64', 'ry(Tmb)': 'float64'}).dtypes
-        #data = data[data['ry(Tmb)'] > -1.0]
-        # Remove lines with values out of range [-1, 1]
-        data = data[(data['ry(Tmb)'] > -1.0) & (data['ry(Tmb)'] < 1.0)]
+        if not data.empty:
+            data = data.astype({'rx(km/s)': 'float64', 'ry(Tmb)': 'float64'})
+            data = data[(data['ry(Tmb)'].astype(float) > -1.0) & (data['ry(Tmb)'].astype(float) < 1.0)]
         return data.reset_index(drop=True)
     except FileNotFoundError:
         print(f'File {filename} not found')
@@ -168,8 +169,12 @@ def create_spectrum(path, filename):
     source, band = get_source_info(filename)
     vel, restfreq, offset = get_source_param(source, band)
 
+    # Asegúrate de que restfreq tenga la unidad correcta
+    if not isinstance(restfreq, u.Quantity):
+        restfreq = restfreq * u.MHz
+
     # Define equivalence velocity - frequency
-    vel_to_freq = u.doppler_radio(restfreq * u.MHz)
+    vel_to_freq = u.doppler_radio(restfreq)
     
     # Set units
     if 'rx(km/s)' not in data.columns or 'ry(Tmb)' not in data.columns:
@@ -178,12 +183,12 @@ def create_spectrum(path, filename):
     flux = data['ry(Tmb)'].values * u.K
 
     # Check if restfreq and vel are given with units or not
-    if not isinstance(restfreq, u.Quantity):
+    '''if not isinstance(restfreq, u.Quantity):
         restfreq = restfreq * u.MHz
     if not isinstance(vel, u.Quantity):
         vel = vel * u.km / u.s
     
-    offset = 0.0 * u.MHz if offset is None else offset * u.MHz
+    offset = 0.0 * u.MHz if offset is None else offset * u.MHz'''
 
     # Create spectrum
     spectrum = Spectrum1D(flux=flux, spectral_axis=frequency+offset, 
