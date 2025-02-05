@@ -40,7 +40,7 @@ def read_spectrum(path, filename, n=None):
         #for i in range(n):
         #    dat = pd.read_csv(filename[i], sep='\s+', header=None, names=['rx(km/s)', 'ry(Tmb)'])
         #    data = dat if i == 0 else pd.concat([data, dat], ignore_index=True)
-        data.astype({'rx(km/s)': 'float64', 'ry(Tmb)': 'float64'}).dtypes
+        data = data.astype({'rx(km/s)': 'float64', 'ry(Tmb)': 'float64'}).dtypes
         #data = data[data['ry(Tmb)'] > -1.0]
         # Remove lines with values out of range [-1, 1]
         data = data[(data['ry(Tmb)'] > -1.0) & (data['ry(Tmb)'] < 1.0)]
