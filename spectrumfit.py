@@ -100,7 +100,7 @@ def get_source_param(source, band):
         Offset in frequency
     """
     try:
-        if source.__contains__('IC418'):
+        if 'IC418' in source:
             vel = 42.59999847412109 * u.km / u.s
             if band == 'Qband':
                 restfreq = 39550.0 * u.MHz
@@ -114,7 +114,9 @@ def get_source_param(source, band):
             elif band == '1mm':
                 restfreq = 230538.0 * u.MHz
                 offset = 31.0 * u.MHz
-        elif source.__contains__('NGC7027') or source.__contains__('NGC_7027'):
+            else:
+                raise ValueError(f"Unknown band: {band}")
+        elif 'NGC7027' in source or 'NGC_7027' in source:
             vel = 26.0 * u.km / u.s
             if band == 'Qband':
                 restfreq = 39550.0 * u.MHz
@@ -125,9 +127,13 @@ def get_source_param(source, band):
             elif band == '2mm':
                 restfreq = 136649.0 * u.MHz
                 offset = 11.0 * u.MHz
+            else:
+                raise ValueError(f"Unknown band: {band}")
             '''elif band == '1mm':
                 restfreq = 230538.0 * u.MHz
                 offset = 31.0 * u.MHz'''
+        else:
+            raise ValueError(f"Unknown source: {source}")
             
         return vel, restfreq, offset
         
